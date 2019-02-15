@@ -1,0 +1,14 @@
+$mainColor : #ffd41c;
+body {
+    font-family: Nunito, 'Sans-serif';
+}
+#header {
+    background-color: $mainColor;
+    .container-fluid { background-color: $mainColor; padding: 10px; }
+    .app-title { font-size: 24px; color: #000;}
+    a { color: #222 }
+}
+
+#inputPage {
+    padding: 10px;
+}

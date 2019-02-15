@@ -4,7 +4,9 @@
   "description": "This repo is meant for monitoring a website ",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "mocha ./test/index.js",
+    "build": "webpack --config ./webpack/prod.js",
+    "dev": "webpack-dev-server --config ./webpack/dev.js --host 0.0.0.0 "
   },
   "repository": {
     "type": "git",
