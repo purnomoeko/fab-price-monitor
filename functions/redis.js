@@ -26,7 +26,7 @@ const plainRedisConnection = () => {
 
 const redisConnection = (req, res, next) => {
     const {
-        redisExpire, redisSet, redisGet, redisDel, redisHset,
+        redisExpire, redisSet, redisGet, redisDel, redisHset, redisKeys, redisHgetAll,
     } = plainRedisConnection();
     req.redis = {};
     req.redis.set = redisSet;
@@ -34,6 +34,8 @@ const redisConnection = (req, res, next) => {
     req.redis.expire = redisExpire;
     req.redis.del = redisDel;
     req.redis.hset = redisHset;
+    req.redis.keys = redisKeys;
+    req.redis.hgetall = redisHgetAll;
     return next();
 };
 

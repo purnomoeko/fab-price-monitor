@@ -28,8 +28,8 @@ const sendToDb = (options) => {
                 productId,
                 images: JSON.parse(images),
             };
-            const { redisSet, redisExpire } = plainRedisConnection();
-            redisSet(productId, JSON.stringify(articleData));
+            const { redisHset, redisExpire } = plainRedisConnection();
+            redisHset(productId, new Date().getTime(), JSON.stringify(articleData));
             redisExpire(productId, 3600 * 24 * 2); // 2 Days Expiration
             return articleData;
         })

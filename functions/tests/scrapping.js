@@ -11,10 +11,12 @@ describe('Generate right format from the link', () => {
         const data = await scrapper('https://fabelio.com/ip/ikarus-dining-table-kit.html');
         data.should.be.an.Object();
         data.should.have.property('productId');
-        const { redisGet } = plainRedisConnection();
-        let dataFromRedis = await redisGet(data.productId);
-        dataFromRedis = JSON.parse(dataFromRedis);
-        dataFromRedis.productId.should.equal(data.productId);
+        const { redisHgetAll } = plainRedisConnection();
+        const dataFromRedis = await redisHgetAll(data.productId);
+        Object.keys(dataFromRedis).forEach((key) => {
+            const individualKey = JSON.parse(dataFromRedis[key]);
+            individualKey.productId.should.be.equal(data.productId);
+        });
     }).timeout(5000);
 
     it('Should be able to send request via http', async () => {
