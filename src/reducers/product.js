@@ -1,9 +1,15 @@
+import uuid from 'uuid';
+
 const DEFAULT_STATE = {
-    productList: [],
+    userId: null,
 };
 
 
 const fnList = {
+    REFRESH_UUID: state => ({
+        ...state,
+        userId: uuid(),
+    }),
 };
 
 export default (state = DEFAULT_STATE, { type, payload }) => {

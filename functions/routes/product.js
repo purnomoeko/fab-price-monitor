@@ -37,7 +37,7 @@ async (req, res) => {
 router.get('/one/:objectId', async (req, res) => {
     try {
         const Products = require('../model/products');
-        const product = await Products.findOne({ id: new Types.ObjectId(req.params.objectId) });
+        const product = await Products.findOne({ _id: new Types.ObjectId(req.params.objectId) });
         res.status(200).send({ status: 200, product });
     } catch (error) {
         res.status(500).send({ status: 500, message: 'ERROR_OCCURED', errorMessage: error.message });

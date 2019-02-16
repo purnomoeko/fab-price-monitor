@@ -15,7 +15,7 @@ const AllRoutes = () => (
                 <Route exact path="/" component={InputPage} />
                 <Route exact path="/input-page" component={InputPage} />
                 <Route path="/list" component={List} />
-                <Route exact path="/details" component={Details} />
+                <Route exact path="/details/:id" component={Details} />
                 <Route
                     render={() => {
                         window.location = '/404.html';

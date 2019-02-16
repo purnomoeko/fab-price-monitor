@@ -20,3 +20,13 @@ body {
 #inputPage {
     padding: 10px;
 }
+
+.comment-space {
+    padding: 10px;
+    border: 1px solid #eee;
+    height: 30vh;
+    overflow-y: scroll;
+    .username{ margin-right: 10px; color: blue;}
+    .text { color: #888; }
+    .time { font-size: 11px; color: #ccc; text-align: right }
+}
