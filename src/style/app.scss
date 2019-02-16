@@ -2,12 +2,20 @@ $mainColor : #ffd41c;
 body {
     font-family: Nunito, 'Sans-serif';
 }
+#react {
+    .modal-backdrop {
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+    .modal-lg { width: 100% }
+}
+
 #header {
     background-color: $mainColor;
     .container-fluid { background-color: $mainColor; padding: 10px; }
     .app-title { font-size: 24px; color: #000;}
     a { color: #222 }
 }
+
 
 #inputPage {
     padding: 10px;

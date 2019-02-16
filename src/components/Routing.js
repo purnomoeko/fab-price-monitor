@@ -14,11 +14,11 @@ const AllRoutes = () => (
             <Switch>
                 <Route exact path="/" component={InputPage} />
                 <Route exact path="/input-page" component={InputPage} />
-                <Route exact path="/list" component={List} />
+                <Route path="/list" component={List} />
                 <Route exact path="/details" component={Details} />
                 <Route
-                    render={(props) => {
-                        window.location = `/404.html?from=${props.location.pathname}`;
+                    render={() => {
+                        window.location = '/404.html';
                     }}
                 />
             </Switch>
