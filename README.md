@@ -17,7 +17,7 @@ bundled with bunch of frontend library like redux, webpack etc. and also the the
 * [AirBnb eslint config](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb)
 
 
-Quick Start
+Quick Start For Frontend
 -----------
 
 ```shell
@@ -34,5 +34,32 @@ Please install webpack and webpack-dev-server globally.
 ```
 $ npm install -g webpack webpack-dev-server
 ```
+
+
+## Requirement for backend
+* MongoDb
+* Redis - Optional
+* NodeJs version 8 or later
+
+## Env Variable
+* PORT: port that will be used for node apps
+* FAB_MONITORING_URL: Mongodb url
+* FAB_MONITORING_DBNAME: Mongodb DBName
+
+**Make sure your port 3000 is open and available**
+
+## To run cronjob monitoring the price change every hour
+`` 0 */1 * * 1 node functions/cron.js ``
+
+
+Quick Start For Backend
+-----------
+
+```shell
+$ cd ./fab-price-monitoring/functions
+$ npm install
+$ nodemon bin/www
+```
+
 
 

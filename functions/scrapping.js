@@ -30,13 +30,6 @@ const sendToDb = (options) => {
                 productId,
                 images: JSON.parse(images),
                 productsHistory: [],
-                $setOnInsert: {
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
-                },
-                $setOnUpdate: {
-                    updatedAt: new Date(),
-                },
             };
             let currentData = await ModelProducts.findOne({ productId: productData.productId });
             if (currentData === null || currentData === undefined) currentData = new ModelProducts(productData);
