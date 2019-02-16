@@ -1,11 +1,16 @@
 const express = require('express');
 const path = require('path');
-const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const mongoose = require('mongoose');
 const product = require('./routes/product');
+
+
+let mongoUrlConnection = process.env.FAB_MONITORING_URL || 'mongodb://localhost/';
+mongoUrlConnection += process.env.FAB_MONITORING_DBNAME || 'fab-monitoring';
+global.db = mongoose.createConnection(mongoUrlConnection, { useNewUrlParser: true });
 
 const app = express();
 

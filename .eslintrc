@@ -18,6 +18,7 @@
             "warn",
             4
         ],
+        "func-names": "off",
         "global-require": "off",
         "react/forbid-prop-types": "off",
         "no-underscore-dangle": "off",

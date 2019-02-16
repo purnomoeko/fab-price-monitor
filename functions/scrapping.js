@@ -2,7 +2,7 @@ const rp = require('request-promise');
 const cheerio = require('cheerio');
 const request = require('request');
 const fs = require('fs');
-const { plainRedisConnection } = require('./redis');
+
 
 const download = (uri, filename, callback) => {
     request.head(uri, function (err, res, body) {
@@ -21,17 +21,38 @@ const sendToDb = (options) => {
             const images = await rp({
                 uri: `https://fabelio.com/swatches/ajax/media/?product_id=${productId}&attributes%5B`
             });
-            
-            const articleData = {
+           
+            const ModelProducts = require('./model/products');
+            const productData = {
                 title,
-                price,
+                link: options.uri,
+                price: parseInt(price.replace(/\D/g, ''), 10),
                 productId,
                 images: JSON.parse(images),
+                productsHistory: [],
+                $setOnInsert: {
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                },
+                $setOnUpdate: {
+                    updatedAt: new Date(),
+                },
             };
-            const { redisHset, redisExpire } = plainRedisConnection();
-            redisHset(productId, new Date().getTime(), JSON.stringify(articleData));
-            redisExpire(productId, 3600 * 24 * 2); // 2 Days Expiration
-            return articleData;
+            let currentData = await ModelProducts.findOne({ productId: productData.productId });
+            if (currentData === null || currentData === undefined) currentData = new ModelProducts(productData);
+            else {
+                productData.productsHistory = currentData.productsHistory;
+                productData.productsHistory.push({
+                    title: currentData.title,
+                    price: currentData.price,
+                    productId: currentData.productId,
+                    updatedAt: currentData.updatedAt,
+                });
+                // delete productData.productHistory;
+                currentData = Object.assign(currentData, productData);
+            }
+            await currentData.save();
+            return productData;
         })
         .catch((err) => {
             console.log(err);

@@ -7,16 +7,19 @@ const app = require('../app');
 
 describe('Generate right format from the link', () => {
     const scrapper = require('../scrapping');
+    before(() => {
+        const mongoose = require('mongoose');
+        let mongoUrlConnection = process.env.FAB_MONITORING_URL || 'mongodb://localhost/';
+        mongoUrlConnection += process.env.FAB_MONITORING_DBNAME || 'fab-monitoring';
+        global.db = mongoose.createConnection(mongoUrlConnection, { useNewUrlParser: true });
+    });
     it('Should be able to read https from fabelio', async () => {
         const data = await scrapper('https://fabelio.com/ip/ikarus-dining-table-kit.html');
         data.should.be.an.Object();
         data.should.have.property('productId');
-        const { redisHgetAll } = plainRedisConnection();
-        const dataFromRedis = await redisHgetAll(data.productId);
-        Object.keys(dataFromRedis).forEach((key) => {
-            const individualKey = JSON.parse(dataFromRedis[key]);
-            individualKey.productId.should.be.equal(data.productId);
-        });
+        const modelProduct = require('../model/products');
+        const dbData = await modelProduct.findOne({ productId: data.productId });
+        dbData.productId.should.be.equal(data.productId);
     }).timeout(5000);
 
     it('Should be able to send request via http', async () => {
@@ -30,7 +33,6 @@ describe('Generate right format from the link', () => {
             .send({
                 url: 'https://fabelio.com/ip/taby-dining-table.html',
             });
-        console.info(response.body);
         response.should.have.status(200);
         response.body.should.have.property('result');
     });
