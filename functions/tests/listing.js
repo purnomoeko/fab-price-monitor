@@ -10,7 +10,8 @@ chai.use(chaiHttp);
 chai.should();
 
 describe('List the product', () => {
-    const uuid1 = uuid();
+    const uuidUpvotes = uuid();
+    const uuidDownvotes = uuid();
     before(() => {
         let mongoUrlConnection = process.env.FAB_MONITORING_URL || 'mongodb://localhost/';
         mongoUrlConnection += process.env.FAB_MONITORING_DBNAME || 'fab-monitoring';
@@ -64,9 +65,6 @@ describe('List the product', () => {
     });
 
     it('Should be able to send upvotes', async () => {
-        const Product = require('../model/products');
-        const product = await Product.findOne({});
-
         const Comment = require('../model/comments');
         const comments = await Comment.findOne({ });
 
@@ -75,7 +73,54 @@ describe('List the product', () => {
             .set('Content-Type', 'application/json')
             .send({
                 type: 'upvote',
-                uuid: uuid1,
+                uuid: uuidUpvotes,
+            });
+        response.should.have.status(200);
+        response.body.should.have.property('comment');
+        response.body.comment.should.be.an('object');
+    });
+    it('Should be able to send downvotes with current id', (done) => {
+        setTimeout(async () => {
+            const Comment = require('../model/comments');
+            const comments = await Comment.findOne({});
+            const response = await chai.request(app)
+                .post(`/product/comments/${comments.id}/votes`)
+                .set('Content-Type', 'application/json')
+                .send({
+                    type: 'downvote',
+                    uuid: uuidUpvotes,
+                });
+            response.should.have.status(200);
+            response.body.should.have.property('comment');
+            response.body.comment.should.be.an('object');
+            done();
+        }, 1000);
+    });
+    it('Should be able to send downvotes', async () => {
+        const Comment = require('../model/comments');
+        const comments = await Comment.findOne({});
+
+        const response = await chai.request(app)
+            .post(`/product/comments/${comments.id}/votes`)
+            .set('Content-Type', 'application/json')
+            .send({
+                type: 'downvote',
+                uuid: uuidDownvotes,
+            });
+        response.should.have.status(200);
+        response.body.should.have.property('comment');
+        response.body.comment.should.be.an('object');
+    });
+    it('Should be able to send upvotes with currentId', async () => {
+        const Comment = require('../model/comments');
+        const comments = await Comment.findOne({});
+
+        const response = await chai.request(app)
+            .post(`/product/comments/${comments.id}/votes`)
+            .set('Content-Type', 'application/json')
+            .send({
+                type: 'upvote',
+                uuid: uuidDownvotes,
             });
         response.should.have.status(200);
         response.body.should.have.property('comment');

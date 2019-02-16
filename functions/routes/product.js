@@ -99,22 +99,24 @@ async (req, res) => {
             throw new Error('COMMENT_NOT_FOUND');
         }
         const upVotesIndex = comment.upVotes.indexOf(req.body.uuid);
-        const downVotesIndex = comment.upVotes.indexOf(req.body.uuid);
+        const downVotesIndex = comment.downVotes.indexOf(req.body.uuid);
         let message = null;
+        
         if (req.body.type === 'upvote') {
             if (upVotesIndex > -1) message = 'YOU_HAVE_UPVOTED_THE_COMMENT';
             else {
-                comment.downVotes.splice(downVotesIndex, 1);
+                if (downVotesIndex > -1) comment.downVotes.splice(downVotesIndex, 1);
                 comment.upVotes.push(req.body.uuid);
             }
         } else if (req.body.type === 'downvote') {
             if (downVotesIndex > -1) message = 'YOU_HAVE_DOWNVOTED_THE_COMMENT';
             else {
-                comment.upVotes.splice(downVotesIndex, 1);
+                if (upVotesIndex > -1) comment.upVotes.splice(upVotesIndex, 1);
                 comment.downVotes.push(req.body.uuid);
             }
         }
         await comment.save();
+        if(message === null) message = 'VOTES_CREATED';
         res.status(200).send({ status: 200, message, comment });
     } catch (error) {
         console.info(error.message);
