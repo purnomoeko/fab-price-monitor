@@ -170,7 +170,7 @@ class Details extends React.Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {productDetail.productsHistory.map(obj => (
+                                {productDetail.productsHistory.reverse().map(obj => (
                                     <tr>
                                         <td>{obj.title}</td>
                                         <td>Rp. {obj.price.toLocaleString()}</td>
