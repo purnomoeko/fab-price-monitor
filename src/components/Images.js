@@ -9,7 +9,7 @@ const ImageSlideShow = (props) => {
     if (Object.keys(props.selectedImage.gallery).length === 0) return null;
     return (
         <div id="myModal" className="modal modal-lg modal-backdrop" tabIndex="-2" role="dialog" style={{ display: props.visible ? 'block' : 'none' }}>
-            <div className="modal-dialog modal-lg">
+            <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
                         <h4 className="modal-title">Images</h4>

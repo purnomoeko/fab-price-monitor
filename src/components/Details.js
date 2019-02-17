@@ -159,6 +159,7 @@ class Details extends React.Component {
                         </div>
                         <div className="clearfix" />
                     </div>
+                    <div className="clearfix" />
                     <div className="price-history col-xs-12 col-lg-4">
                         <table className="table table-stripped">
                             <thead>

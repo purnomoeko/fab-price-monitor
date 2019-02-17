@@ -46,11 +46,21 @@ $ npm install -g webpack webpack-dev-server
 * FAB_MONITORING_URL: Mongodb url
 * FAB_MONITORING_DBNAME: Mongodb DBName
 
-**Make sure your port 3000 is open and available**
+**Make sure your port specified is open and available**
 
 ## To run cronjob monitoring the price change every hour
-`` 0 */1 * * 1 node functions/cron.js ``
+`` 0 */1 * * * node functions/cron.js ``
 
+
+## Unit Test - Black box testing
+* To run the test on backend api url you can try to use this: 
+```
+    npm test
+```
+* Individual test file
+```
+    ./node_modules/mocha/bin/mocha test/${filename}.js
+```
 
 Quick Start For Backend
 -----------
